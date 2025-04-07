@@ -37,7 +37,6 @@ public class User {
     @Pattern(regexp = "^([A-Z]|[a-z]|\\s)+$")
     private String name;
     @Email
-    @UniqueElements
     private String email;
     @NotEmpty
     private String password;
