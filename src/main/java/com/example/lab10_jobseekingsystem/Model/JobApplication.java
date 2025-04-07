@@ -23,9 +23,9 @@ public class JobApplication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
-    @Column(columnDefinition = "int not null, foreign key (user_id) references user(id)")
+//    @Column(columnDefinition = "int not null, foreign key (user_id) references user(id)")
     private Integer user_id;
     @NotNull
-    @Column(columnDefinition = "int not null, foreign key (job_post_id) references job_post(id)")
+//    @Column(columnDefinition = "int not null, foreign key (job_post_id) references job_post(id)")
     private Integer job_post_id;
 }
