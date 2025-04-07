@@ -17,22 +17,24 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/get")
-    public ResponseEntity getAllUsers(){
+    public ResponseEntity getAllUsers() {
         if (userService.getAllUsers().isEmpty())
             return ResponseEntity.status(400).body(new ApiResponse("there are no users"));
         return ResponseEntity.status(200).body(userService.getAllUsers());
     }
 
     @PostMapping("/add")
-    public ResponseEntity addUser(@RequestBody@Valid User user, Errors errors){
+    public ResponseEntity addUser(@RequestBody @Valid User user, Errors errors) {
         if (errors.hasErrors())
             return ResponseEntity.status(400).body(new ApiResponse(errors.getFieldError().getDefaultMessage()));
-        userService.addUser(user);
-        return ResponseEntity.status(200).body(new ApiResponse("new user added"));
+        boolean isAdded = userService.addUser(user);
+        if (isAdded)
+            return ResponseEntity.status(200).body(new ApiResponse("new user added"));
+        return ResponseEntity.status(400).body(new ApiResponse("this email is already exist!"));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity updateUser(@PathVariable Integer id,@RequestBody@Valid User user,Errors errors){
+    public ResponseEntity updateUser(@PathVariable Integer id, @RequestBody @Valid User user, Errors errors) {
         if (errors.hasErrors())
             return ResponseEntity.status(400).body(new ApiResponse(errors.getFieldError().getDefaultMessage()));
         boolean isUpdated = userService.updateUser(id, user);
@@ -42,7 +44,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteUser(@PathVariable Integer id){
+    public ResponseEntity deleteUser(@PathVariable Integer id) {
         boolean isDeleted = userService.deleteUser(id);
         if (isDeleted)
             return ResponseEntity.status(200).body(new ApiResponse("user is deleted"));

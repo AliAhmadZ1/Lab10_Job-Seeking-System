@@ -1,5 +1,6 @@
 package com.example.lab10_jobseekingsystem.Service;
 
+import com.example.lab10_jobseekingsystem.ApiResponse.ApiResponse;
 import com.example.lab10_jobseekingsystem.Model.User;
 import com.example.lab10_jobseekingsystem.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUser(User user){
-        userRepository.save(user);
+    public Boolean addUser(User user){
+        try{
+            for (User u: getAllUsers()){
+                if (u.getEmail().equals(user.getEmail()))
+                    throw new Exception();
+            }
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public Boolean updateUser(Integer id,User user){
