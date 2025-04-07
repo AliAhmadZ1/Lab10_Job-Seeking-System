@@ -22,29 +22,36 @@ public class UserService {
     }
 
     public Boolean updateUser(Integer id,User user){
-        User oldUser = userRepository.getById(id);
-
-        if (oldUser==null)
-            return false;
-
-        oldUser.setName(user.getName());
-        oldUser.setEmail(user.getEmail());
-        oldUser.setPassword(user.getPassword());
-        oldUser.setAge(user.getAge());
-        oldUser.setRole(user.getRole());
-
-        userRepository.save(oldUser);
-        return true;
+        for (User u:getAllUsers()) {
+//            User oldUser = userRepository.getById(id);
+//
+//            if (oldUser == null)
+//                return false;
+            if (u.getId()==id) {
+                u.setName(user.getName());
+                u.setEmail(user.getEmail());
+                u.setPassword(user.getPassword());
+                u.setAge(user.getAge());
+                u.setRole(user.getRole());
+                userRepository.save(u);
+                return true;
+            }
+        }
+        return false;
     }
 
     public Boolean deleteUser(Integer id){
-        User user = userRepository.getById(id);
-
-        if (user==null)
-            return false;
-
-        userRepository.delete(user);
-        return true;
+        for (User u:getAllUsers()) {
+//            User user = userRepository.getById(id);
+//
+//            if (user == null)
+//                return false;
+            if (u.getId()==id) {
+                userRepository.delete(u);
+                return true;
+            }
+        }
+        return false;
     }
 
 }

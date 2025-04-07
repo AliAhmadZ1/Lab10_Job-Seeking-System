@@ -24,24 +24,33 @@ public class JobPostService {
     }
 
     public Boolean updateJob(Integer id, JobPost jobPost){
-        JobPost oldJobPost = jobPostRepository.getById(id);
-
-        if (oldJobPost ==null)
-            return false;
-
-        oldJobPost.setTitle(jobPost.getTitle());
-        oldJobPost.setDescription(jobPost.getDescription());
-        oldJobPost.setLocation(jobPost.getLocation());
-        oldJobPost.setSalary(jobPost.getSalary());
-        jobPostRepository.save(oldJobPost);
-        return true;
+        for (JobPost j: getJobPosts()) {
+//            JobPost oldJobPost = jobPostRepository.getById(id);
+//
+//            if (oldJobPost == null)
+//                return false;
+            if (j.getId()==id) {
+                j.setTitle(jobPost.getTitle());
+                j.setDescription(jobPost.getDescription());
+                j.setLocation(jobPost.getLocation());
+                j.setSalary(jobPost.getSalary());
+                jobPostRepository.save(j);
+                return true;
+            }
+        }
+        return false;
     }
 
     public Boolean deleteJob(Integer id){
-        JobPost jobPost = jobPostRepository.getById(id);
-        if (jobPost==null)
-            return false;
-        jobPostRepository.delete(jobPost);
-        return true;
+        for (JobPost j:getJobPosts()) {
+//            JobPost jobPost = jobPostRepository.getById(id);
+//            if (jobPost == null)
+//                return false;
+            if (j.getId()==id) {
+                jobPostRepository.delete(j);
+                return true;
+            }
+        }
+        return false;
     }
 }
